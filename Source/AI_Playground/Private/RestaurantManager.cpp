@@ -9,8 +9,7 @@
 ARestaurantManager::ARestaurantManager()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 // Called when the game starts or when spawned
@@ -19,16 +18,7 @@ void ARestaurantManager::BeginPlay()
 	Super::BeginPlay();
 
 	UWorld* world = GetWorld();
-	if (world)
-	{
-		auto pos = GetTransform();
-		if (!SpawnerPoints.IsEmpty())
-		{
-			pos.AddToTranslation(SpawnerPoints[0]);
-		}
-		ACustomer* CustomerBPInstance = world->SpawnActor<ACustomer>(customerBP, pos);
-		mCustomers.Add(CustomerBPInstance);
-	}
+	
 	mSeats.Empty();
 	//get all seats in the world
 	for (TActorIterator<ACustomer_Seat> It(world, ACustomer_Seat::StaticClass()); It; ++It)
@@ -42,32 +32,15 @@ void ARestaurantManager::BeginPlay()
 
 	if (GEngine)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("CustomerPool %d"), mCustomers.Num()));
-		GEngine->AddOnScreenDebugMessage(-2, 15.0f, FColor::Yellow, FString::Printf(TEXT("SeatNumber %d"), mSeats.Num()));
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("CustomerPool %d"), mCustomers.Num()));
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("SeatNumber %d"), mSeats.Num()));
 	}
 }
 
 // Called every frame
 void ARestaurantManager::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime); 
-	
-}
-
-ACustomer* ARestaurantManager::GetInactiveCustomer()
-{
-	for (auto i : mCustomers)
-	{
-		if (!i->GetActive())
-		{
-			i->Reset();
-			
-			return i;
-		}
-	}
-
-	GEngine->AddOnScreenDebugMessage(-5, 15.0f, FColor::Yellow, FString::Printf(TEXT("!!RestaurantManager!! CustomerPool size %d is not enough."), mCustomers.Num()));
-	return nullptr;
+	Super::Tick(DeltaTime); 	
 }
 
 void ARestaurantManager::NewCustomer()
@@ -88,6 +61,24 @@ void ARestaurantManager::NewCustomer()
 
 		// Spawn the instance of the "CustomerBP" class and store the reference to it.
 		//ACustomerBP* CustomerBPInstance = World->SpawnActor<ACustomerBP>(CustomerBPClass, SpawnTransform);
+	}
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("CustomerPool %d"), mCustomers.Num()));
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("SeatNumber %d"), mSeats.Num()));
+	}
+}
+
+
+void ARestaurantManager::RemoveCustomer(ACustomer* customer)
+{
+	for (ACustomer* i : mCustomers)
+	{
+		if (i == customer)
+		{
+			mCustomers.RemoveSingleSwap(customer, false);
+			customer->Destroy();
+		}
 	}
 }
 

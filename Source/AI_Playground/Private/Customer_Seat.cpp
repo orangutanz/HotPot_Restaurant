@@ -25,3 +25,17 @@ void ACustomer_Seat::Tick(float DeltaTime)
 
 }
 
+FTransform ACustomer_Seat::GetSeatWorldPosition(int index)
+{
+	if (mSeatPositions.Num() <= index)
+	{
+		return FTransform::Identity;
+	}
+	return mSeatPositions[index];
+}
+
+void ACustomer_Seat::AddSeatWorldPosition(const FTransform transform)
+{
+	mSeatPositions.Add(transform);
+}
+

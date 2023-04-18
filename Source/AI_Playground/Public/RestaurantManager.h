@@ -25,17 +25,24 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Customer)
-	TSubclassOf<ACustomer> customerBP;
-
 	UFUNCTION(BlueprintCallable, Category = Customer)
 	void NewCustomer();
 
-	ACustomer* GetInactiveCustomer();
+	UFUNCTION(BlueprintCallable, Category = Customer)
+	void RemoveCustomer(ACustomer* customer);
+
+	UFUNCTION(BlueprintCallable, Category = Customer)
 	ACustomer_Seat* GetEmptySeat();
-	
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Customer)
+	TSubclassOf<ACustomer> customerBP;
+
 private:
+	UPROPERTY()
 	TArray<ACustomer*> mCustomers;
+
+	UPROPERTY()
 	TArray<ACustomer_Seat*> mSeats;
 
 	UPROPERTY(EditAnywhere)
