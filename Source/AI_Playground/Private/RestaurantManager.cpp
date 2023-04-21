@@ -32,8 +32,8 @@ void ARestaurantManager::BeginPlay()
 
 	if (GEngine)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("CustomerPool %d"), mCustomers.Num()));
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("SeatNumber %d"), mSeats.Num()));
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("CustomerPool %d"), mCustomers.Num()));
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("SeatNumber %d"), mSeats.Num()));
 	}
 }
 
@@ -64,8 +64,8 @@ void ARestaurantManager::NewCustomer()
 	}
 	if (GEngine)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("CustomerPool %d"), mCustomers.Num()));
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("SeatNumber %d"), mSeats.Num()));
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("CustomerPool %d"), mCustomers.Num()));
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("SeatNumber %d"), mSeats.Num()));
 	}
 }
 
@@ -92,7 +92,7 @@ ACustomer_Seat* ARestaurantManager::GetEmptySeat()
 		}
 	}
 
-	GEngine->AddOnScreenDebugMessage(-5, 15.0f, FColor::Yellow, FString::Printf(TEXT("!!RestaurantManager!! mSeats size %d is not enough."), mSeats.Num()));
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("!!RestaurantManager!! mSeats size %d is not enough."), mSeats.Num()));
 	return nullptr;
 }
 
